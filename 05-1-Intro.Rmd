@@ -13,8 +13,9 @@ require(tidyverse) # require gives more informative errors than library
 
 This week we will:
 
-- 
-- 
+- Practice summarizing large datasets by groups 
+- Tidy and untidy data with `pivot_longer` and `pivot_wider`
+- Join datasets using different `_join` functions
 
 ## Introduction
 
