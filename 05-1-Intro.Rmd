@@ -27,7 +27,7 @@ The information below augments the readings. Following this, you'll be in good s
 
 Required:
 
-- [R for Data Science, section 5.6: Grouped Summaries](https://r4ds.had.co.nz/transform.html#grouped-summaries-with-summarise)
+- [R for Data Science, section 5.6: Grouped Summaries](https://r4ds.hadley.nz/data-transform#groups) ([in the old version this is the link](https://r4ds.had.co.nz/transform.html#grouped-summaries-with-summarise))
 - [R for Data Science, chapter 13: Relational Data (relations between different datasets)](https://r4ds.had.co.nz/relational-data.html) 
 
 Optional: 
