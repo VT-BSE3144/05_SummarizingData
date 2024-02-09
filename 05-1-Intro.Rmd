@@ -9,6 +9,12 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 require(tidyverse) # require gives more informative errors than library
 ```
+## Learning Objectives
+
+This week we will:
+
+- 
+- 
 
 ## Introduction
 
