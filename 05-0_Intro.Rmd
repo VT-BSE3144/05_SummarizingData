@@ -31,6 +31,7 @@ Required:
 - [R for Data Science, section 3.5: Groups](https://r4ds.hadley.nz/data-transform#groups)
 - [R for Data Science, section 5.3 and 5.4: lengthening and Widening data](https://r4ds.hadley.nz/data-tidy#sec-pivoting)
 - [R for Data Science, chapter 19: Joins)](https://r4ds.hadley.nz/joins) 
+- [Weekly Letter from Google Drive] (https://docs.google.com/document/d/1JPcIdCwKepC8NVVEXrUJOtI2nA-utE1tqk3sHEoXpz0/edit)
 
 Optional: 
 
