@@ -57,6 +57,7 @@ root_growth_inh %>% group_by(batch) %>%
            mean(root_growth_mm[genotype == "Col-0" & treatment == 0]) * 100) ->
   root_growth_inh
 ```
+
 ```{r}
 root_growth_inh_aov <- aov(percent_inh ~ genotype*treatment + batch, data = root_growth_inh)
 summary(root_growth_inh_aov)
@@ -77,21 +78,6 @@ root_growth_inh %>% filter(genotype != "tir1-10") %>%
                             AFB1 = !str_detect(genotype, "afb1")) ->
   root_growth_inh
 ```
-
-```{r}
-leveneTest(percent_inh ~ genotype, filter(root_growth_inh, treatment == 100))
-leveneTest(percent_inh ~ TIR1*AFB1, filter(root_growth_inh, treatment == 100))
-leveneTest(percent_inh ~ genotype, filter(root_growth_inh, treatment == 0))
-leveneTest(percent_inh ~ TIR1*AFB1, filter(root_growth_inh, treatment == 0))
-qqnorm(filter(root_growth_inh, treatment == 100)$percent_inh)
-qqline(filter(root_growth_inh, treatment == 100)$percent_inh)
-qqnorm(filter(root_growth_inh, treatment == 0)$percent_inh)
-qqline(filter(root_growth_inh, treatment == 0)$percent_inh)
-skewness(filter(root_growth_inh, treatment == 100)$percent_inh)
-skewness(filter(root_growth_inh, treatment == 0)$percent_inh)
-```
-
-The 100 nM data do violate homogeneity of variance, but it seems from reading of https://stats.stackexchange.com/questions/56971/alternative-to-one-way-anova-unequal-variance, that Levene's test is more sensitive than ANOVA, and our ANOVA will lose power if this assumption is invalid, so we would be less likely to see significant effects. However, there are far fewer samples for *afb1* and *tir1afb1*. To minimize the effects of this heterogeneity we could include only *tir1* and Col-0 from the same batches as *afb1* and *tir1afb1*.
 
 For now let's look at the whole dataset.
 
