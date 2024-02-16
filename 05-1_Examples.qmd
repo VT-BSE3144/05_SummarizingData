@@ -4,11 +4,17 @@ format: html
 editor: visual
 ---
 
+```{r setup}
+library(tidyverse)
+library(readxl)
+```
+
+
 ## Tidying and untidying data with `pivot_` functions
  
 ### Root Growth Inhibition Example
 
-## Introduction
+#### Introduction
 
 In my research group we study plant genes and how they function. One interesting thing about plants is that their genomes are quite large compared to other organisms and one of the reasons for that is their genomes have been duplicated several times throughout the history of their evolution
 
@@ -19,10 +25,10 @@ These genome duplications have generated families of genes which have similar bu
 This dataset is from [Prigge *et al*. 2020](), who collected measurements of several phenotypes for combinations of mutants in the TIR1/AFB auxin receptor genes which my group studies and engineers.
 
 ```{r}
-root_growth_inh_0 <- read_xlsx("elife-54740-fig1-figsupp3-data1-v2_data-only_tir1afb1.xlsx", sheet = "Primary Root Growth Inh EtOH", skip = 1)
-root_growth_inh_20 <- read_xlsx("elife-54740-fig1-figsupp3-data1-v2_data-only_tir1afb1.xlsx", sheet = "Primary Root Growth Inh 20 nM", skip = 1)
-root_growth_inh_100 <- read_xlsx("elife-54740-fig1-figsupp3-data1-v2_data-only_tir1afb1.xlsx", sheet = "Primary Root Growth Inh 100 nM", skip = 1)
-root_growth_inh_500 <- read_xlsx("elife-54740-fig1-figsupp3-data1-v2_data-only_tir1afb1.xlsx", sheet = "Primary Root Growth Inh 500 nM", skip = 1)
+root_growth_inh_0 <- read_xlsx("data/elife-54740-fig1-figsupp3-data1-v2_data-only_tir1afb1.xlsx", sheet = "Primary Root Growth Inh EtOH", skip = 1)
+root_growth_inh_20 <- read_xlsx("data/elife-54740-fig1-figsupp3-data1-v2_data-only_tir1afb1.xlsx", sheet = "Primary Root Growth Inh 20 nM", skip = 1)
+root_growth_inh_100 <- read_xlsx("data/elife-54740-fig1-figsupp3-data1-v2_data-only_tir1afb1.xlsx", sheet = "Primary Root Growth Inh 100 nM", skip = 1)
+root_growth_inh_500 <- read_xlsx("data/elife-54740-fig1-figsupp3-data1-v2_data-only_tir1afb1.xlsx", sheet = "Primary Root Growth Inh 500 nM", skip = 1)
 
 root_growth_plonger <- function(data){
   data %>% 

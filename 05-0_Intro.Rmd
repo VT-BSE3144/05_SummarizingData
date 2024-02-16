@@ -1,8 +1,8 @@
 ---
-title: "Week 4 - topics of the week"
-author: 
+title: "Week 5 - Summarizing Data"
+author: Clay Wright
 output:
-  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -30,17 +30,15 @@ Required:
 
 -   [R for Data Science, section 3.5: Groups](https://r4ds.hadley.nz/data-transform#groups)
 -   [R for Data Science, section 5.3 and 5.4: lengthening and Widening data](https://r4ds.hadley.nz/data-tidy#sec-pivoting)
--   [R for Data Science, chapter 19: Joins)](https://r4ds.hadley.nz/joins)
+-   [R for Data Science, chapter 19: Joins](https://r4ds.hadley.nz/joins)
 
-Optional:
+As you read through, my suggestion is to have the markdown version of this document open in Posit where you can take notes on important functions/concepts and also code along with the examples. This way you’ll get a headstart on your cheat sheet for this week. The below summarizes and provides a different example, but feel free to copy in examples from the reading and tinker with them a bit.
+
+These optional readings will also be useful follow up:
 
 -   [`dplyr` lesson in Data Carpentry](https://datacarpentry.org/R-ecology-lesson/03-dplyr.html)
 -   [`dplyr` vignette (long form example document)](https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html): if you’re struggling, this provides additional examples that you can try on your own (and as a bonus they use a Star Wars data set). Package vignettes like this are an amazing resource for learning new packages, and evaluating their capabilities, once you get the basics.
 -   [`tidyr` pivot vignette](https://tidyr.tidyverse.org/articles/pivot.html) again provides some nice examples of the `pivot_longer` and `pivot_wider` functions with different data set (although none quite as fun as the Star Wars data, alas).
-
-As you read through, my suggestion is to have the markdown version of this document open in Posit where you can take notes on important functions/concepts and also code along with the examples. This way you’ll get a headstart on your cheat sheet for this week.
-
-The below summarizes and provides a different example, but feel free to copy in examples from the reading and tinker with them a bit.
 
 ## `group_by` function: Summarizing info based on type/characteristic
 
@@ -154,10 +152,9 @@ sleep |>
 So what can we do? Start by adding a na.rm = TRUE command.
 
 ```{r}
-x_rows <- 
-  x_drug %>% 
+sleep |>
+  group_by(group) |>
   summarize(median_sleep = median(extra, na.rm = TRUE))
-x_rows
 ```
 
 If you still had NaN or some other troublesome value (depending on your data set), you could filter the data: `filter(data, !is.na(variable))`
@@ -278,11 +275,9 @@ billboard |>
 ```
 
 
-
-
 ## Joins within `dplyr`
 
-*Based on reading from [R for Data Science, chapter 19: Joins)](https://r4ds.hadley.nz/joins)*
+*Based on reading from [R for Data Science, chapter 19: Joins](https://r4ds.hadley.nz/joins)*
 
 Within Biological Systems Engineering and the larger field, there are many times when we use multiple tables to reduce redundant data. Imagine you have a very large table that repeats double-precision data over and over again, resulting in a dataset that occupies more computer memory. While modern computers are incredible in their storage capacity, I can attest that processing speed and memory allocation is and will still be a consideration in your work. Here, we're going to explore how you can join tables using a common "key" or relation.
 
@@ -291,14 +286,14 @@ Let's illustrate this using data using data we've used last week.
 We'll first read each of these into the workspace:
 
 ```{r}
-plots <- read.csv("plots.csv")
-species <- read.csv("species.csv")
-surveys <- read.csv("surveys.csv")
+plots <- read.csv("data/plots.csv")
+species <- read.csv("data/species.csv")
+surveys <- read.csv("data/surveys.csv")
 ```
 
-Note that when you do this, there are 24 plots, 54 types of species, but 35,549 lines of data in the species dataset!
+Note that when you do this, there are 24 plots, 54 types of species, but 35,549 lines of data in the surveys dataset!
 
-What is the column that links the plots and surveys dataset?
+What is the column that is shared by, **or links**, the plots and surveys dataset?
 
 `plot_id`!
 
@@ -314,27 +309,49 @@ From help:
 
 The mutating joins add columns from dataset `y` to dataset `x`, matching rows based on the keys:
 
--   `inner_join()`: includes all rows in `x` and `y`.
+-   `inner_join(x,y)`: includes all rows in `x` and `y`.
 
--   `left_join()`: includes all rows in `x`.
+-   `left_join(x,y)`: includes all rows in `x`.
 
--   `right_join()`: includes all rows in `y`.
+-   `right_join(x,y)`: includes all rows in `y`.
 
--   `full_join()`: includes all rows in `x` or `y`.
+-   `full_join(x,y)`: includes all rows in `x` or `y`.
 
--   If a row in `x` matches multiple rows in `y`, all the rows in `y` will be returned once for each matching row in `x`.
+  -     If a row in `x` matches multiple rows in `y`, all the rows in `y` will be returned once for each matching row in `x`.
 
 The [dplyr cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) (also up in the Help\>Cheat Sheets menu) demonstrates this visually.
 
-If you want to include the detailed names contained within the species table, use an inner join and join based on the common variable species_id. You end up with 3 additional variables that are within the species table.
+If you want to include the detailed names contained within the species table, use an inner join and join based on the common variable `species_id`, using the `by` argument to specify the column name(s), **as a character vector**, that you want to link the two datasets. 
+
+In this case, you end up with 3 additional variables that are within the species table added to the surveys data. 
 
 ```{r}
-combo <- inner_join(surveys, species, by="species_id")
+combo <- inner_join(surveys, species, by = "species_id")
+head(combo)
 ```
 
-If you wanted to join all three tables together:
+If you wanted to join all three tables together we could add this to the first combo:
 
 ```{r}
-combo2 <- inner_join(combo, plots, by="plot_id")
+combo2 <- inner_join(combo, plots, by = "plot_id")
 ```
+
+Or use pipes. This is actually more efficient because you aren't creating the intermediate combo object that takes up memory, plus, this way you don't accidentally mix up `combo` and `combo2`. As always more descriptive names would be better!
+
+```{r}
+combo2 <- surveys %>% # oops this is what the pipe symbol used to be
+  inner_join(species, by = "species_id") |>
+  inner_join(plots, by = "plot_id")
+head(combo2)
+```
+
+While it is best practice to specify the columns you are using to uniquely match the datasets (called unique identifiers sometimes) the `_join` functions are pretty smart and will find variables that match between the datasets automatically as well!
+
+```{r}
+surveys |>
+  inner_join(species) |>
+  inner_join(plots) |>
+  head()
+```
+
 
