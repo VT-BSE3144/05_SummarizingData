@@ -9,9 +9,8 @@ library(tidyverse)
 library(readxl)
 ```
 
-
 ## Tidying and untidying data with `pivot_` functions
- 
+
 ### Root Growth Inhibition Example
 
 #### Introduction
@@ -31,7 +30,7 @@ root_growth_inh_100 <- read_xlsx("data/elife-54740-fig1-figsupp3-data1-v2_data-o
 root_growth_inh_500 <- read_xlsx("data/elife-54740-fig1-figsupp3-data1-v2_data-only_tir1afb1.xlsx", sheet = "Primary Root Growth Inh 500 nM", skip = 1)
 
 root_growth_plonger <- function(data){
-  data %>% 
+  data |> 
   pivot_longer(cols = -line, 
                names_to = "genotype", 
                values_to = "root_growth_mm") %>%
@@ -87,7 +86,6 @@ root_growth_inh %>% filter(genotype != "tir1-10") %>%
 
 For now let's look at the whole dataset.
 
-
 ```{r}
 root_growth_inh.int <- aov(percent_inh ~ TIR1*AFB1*treatment, data = root_growth_inh)
 summary(root_growth_inh.int)
@@ -103,7 +101,7 @@ ggplot(data = root_growth_inh, aes(x = fac_treat, y = percent_inh, color = genot
   geom_boxplot() + geom_point(position = position_jitterdodge(jitter.width = 0.2))
 ```
 
-Strong case for an interaction, but not dependent on treatment, interesting. 
+Strong case for an interaction, but not dependent on treatment, interesting.
 
 To make this easier to explain we can repeat this analysis after stratifying by treatment.
 
@@ -112,7 +110,7 @@ root_growth_inh0.int <- aov(percent_inh ~ TIR1*AFB1, data = filter(root_growth_i
 summary(root_growth_inh0.int)
 ```
 
-This matches expectations mostly, I would have expected AFB1 to have less effect, but in this model the double mutant is also contributing to this effect size. The interaction here is still a strong effect. 100 nM should be more telling even. 
+This matches expectations mostly, I would have expected AFB1 to have less effect, but in this model the double mutant is also contributing to this effect size. The interaction here is still a strong effect. 100 nM should be more telling even.
 
 ```{r}
 root_growth_inh100.int <- aov(percent_inh ~ TIR1*AFB1, data = filter(root_growth_inh, treatment == 100))
