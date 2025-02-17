@@ -1,8 +1,11 @@
 ---
-title: "Data Summarizing Examples"
-format: html
-editor: visual
+output: html_document
+params:
+  version: 1.0
 ---
+
+
+# Summarizing Data Examples {-}
 
 ```{r setup}
 library(tidyverse)

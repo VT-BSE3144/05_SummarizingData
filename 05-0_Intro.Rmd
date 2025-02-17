@@ -1,9 +1,11 @@
 ---
-title: "Week 5 - Summarizing Data"
-author: Clay Wright
-output:
-  html_document: default
+output: html_document
+params:
+  version: 1.0
 ---
+
+
+# Summarizing Data
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
