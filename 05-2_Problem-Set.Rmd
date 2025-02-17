@@ -79,7 +79,7 @@ Using the surveys.csv dataset in your workspace:
              # whole thing out 
 ```
 
-3. Find the mean mass of species DO in each year using filter, group_by, and summarize. If the data contains NA, omit so you have a value for each year.
+3. Find the mean weight of species DO in each year using filter, group_by, and summarize. If the data contains NA, omit so you have a value for each year.
  
 ```{r}
 
