@@ -111,7 +111,6 @@ bioreactor_wide <- bioreactor_long %>%
 merged_data <- bioreactor_wide %>%
   left_join(experiment, by = "Run")
 
-
 ```
 
 
@@ -119,7 +118,7 @@ merged_data <- bioreactor_wide %>%
 
     -   Group the merged dataset by the `Feed` type.
 
-    -   Calculate summary statistics (e.g., mean and standard deviation) for key measurements such as `Temp` and `pH` across all time points and runs for each feed type.\
+    -   Calculate summary statistics (e.g., mean and standard deviation, or min and max) for key measurements such as `Temp`, `pH`, and `Substrate` across all time points and runs for each feed type.\
         *Hint: Use `dplyr::group_by()` and `dplyr::summarize()`.*
 
 ```{r}
@@ -129,7 +128,9 @@ summary_stats <- merged_data %>%
   summarize(mean_Temp = mean(Temp, na.rm = TRUE),
             sd_Temp   = sd(Temp, na.rm = TRUE),
             mean_pH   = mean(pH, na.rm = TRUE),
-            sd_pH     = sd(pH, na.rm = TRUE))
+            sd_pH     = sd(pH, na.rm = TRUE), 
+            max_Subs  = max(Substrate, na.rm = TRUE), 
+            min_Subs  = min(Substrate, na.rm = TRUE))
 
 # View summary statistics
 print(summary_stats)
@@ -138,7 +139,7 @@ print(summary_stats)
 
 5.  **Interpreting the Results**
 
-    -   Discuss how different feed types may be affecting the reactor conditions based on your summary statistics.
+    -   Discuss how different feed types glucose vs glycerol may be affecting the reactor conditions based on your summary statistics.
 
     -   What potential insights could an engineer draw from these analyses?
 
